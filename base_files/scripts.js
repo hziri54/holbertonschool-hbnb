@@ -31,5 +31,29 @@ document.addEventListener('DOMContentLoaded', () => {
               errorMessage.style.display = 'block';
           }
       });
+  } else {
+    checklogin()
   }
 });
+function checklogin(){
+  const token = getCookie("token")
+  const button = document.getElementById("login-button")
+  if (token) 
+    button.style.display= "none";
+  else
+    button.style.display= "block";
+}
+function getCookie(name) {
+  let cookies = document.cookie;
+  if(cookies) {
+    let cookieData = cookies.split(";");
+    for(let i = 0; i < cookieData.length; i++) {
+      let cookie = cookieData[i];
+      let key = cookie.split("=")[0];
+      let value = cookie.split("=")[1];
+      if(key === name)
+        return value;
+    }
+  }
+  return;
+}
