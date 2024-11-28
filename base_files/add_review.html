@@ -7,19 +7,30 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <img src="./images/logo.png" alt="Hbnb Logo" class="logo">
+        <a href="place.html" class="login-button">Back to Place</a>
+    </header>
     <main>
-        <!-- Add something to idfentify the place you're reviewing -->
-        <form id="review-form">
-            <h2>Add a Review</h2>
-            <label for="review">Your Review:</label>
-            <textarea id="review" name="review" required></textarea>
+        <h1>Reviewing: Beautiful Beach House</h1>
+        <form action="#" method="POST" class="add-review">
+            <label for="review-text">Your Review:</label>
+            <textarea id="review-text" name="review-text" rows="4" required></textarea>
+
             <label for="rating">Rating:</label>
             <select id="rating" name="rating" required>
-                <!-- Options for rating -->
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
             </select>
-            <button type="submit">Submit Review</button>
+
+            <button type="submit" class="submit-button">Submit Review</button>
         </form>
     </main>
-    <script src="scripts.js"></script>
+    <footer>
+        <p>© 2024 Hbnb Evolution. All rights reserved.</p>
+    </footer>
 </body>
 </html>

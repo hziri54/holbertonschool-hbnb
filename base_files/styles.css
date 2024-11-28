@@ -1,98 +1,71 @@
-/* Global Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f8f8;
-    color: #333;
+    background-color: #f9f9f9;
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #ffa500;
     padding: 10px 20px;
-    background-color: #f58c1f;
-    color: white;
 }
 
-header .logo {
-    display: flex;
-    align-items: center;
+.logo {
+    height: 40px;
 }
 
-header .logo img {
-    height: 30px;
-    margin-right: 10px;
-}
-
-header .logo span {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-header .login {
+.login-button {
     text-decoration: none;
     color: white;
-    font-size: 16px;
+    font-weight: bold;
 }
 
 main {
     padding: 20px;
+}
+
+h1, h2 {
     text-align: center;
 }
 
-main h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.filter {
-    margin-bottom: 20px;
-}
-
-.filter select {
-    padding: 5px;
-    font-size: 16px;
-}
-
-.places {
+.place-list {
     display: flex;
     justify-content: center;
     gap: 20px;
-    flex-wrap: wrap;
+    margin-top: 20px;
 }
 
-.place-card {
+.place-card, .review-card, .place-details {
     background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 250px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 20px;
     text-align: center;
 }
 
-.place-card h2 {
-    font-size: 18px;
-    margin: 0 0 10px;
+.place-card {
+    width: 200px;
 }
 
-.place-card p {
-    font-size: 16px;
-    margin: 0 0 15px;
-}
-
-.place-card button {
-    background-color: #f58c1f;
+.details-button, .add-review-button, .submit-button {
+    background-color: #ffa500;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
 }
 
-.place-card button:hover {
-    background-color: #d9761a;
+footer {
+    text-align: center;
+    background-color: #ffa500;
+    color: white;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
