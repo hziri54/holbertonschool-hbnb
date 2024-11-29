@@ -12,27 +12,31 @@
         <a href="index.html" class="login-button">Back to List</a>
     </header>
     <main>
-        <h1>Beautiful Beach House</h1>
-        <div class="place-details">
+        <h1 id="place-title">Beautiful Beach House</h1>
+        <div id="place-details" class="place-details">
             <p><strong>Host:</strong> John Doe</p>
             <p><strong>Price per night:</strong> $150</p>
             <p><strong>Description:</strong> A beautiful beach house with amazing views...</p>
             <p><strong>Amenities:</strong> WiFi, Pool, Air Conditioning</p>
         </div>
         <h2>Reviews</h2>
-        <div class="review-card">
-            <p><strong>Jane Smith:</strong> Great place to stay!</p>
-            <p>Rating: ★★★★☆</p>
-        </div>
-        <div class="review-card">
-            <p><strong>Robert Brown:</strong> Amazing location and very comfortable.</p>
-            <p>Rating: ★★★★★</p>
-        </div>
-        <button class="add-review-button" onclick="location.href='add_review.html';">Add Review</button>
+        <section id="reviews">
+            <div class="review-card">
+                <p><strong>Jane Smith:</strong> Great place to stay!</p>
+                <p>Rating: ★★★★☆</p>
+            </div>
+            <div class="review-card">
+                <p><strong>Robert Brown:</strong> Amazing location and very comfortable.</p>
+                <p>Rating: ★★★★★</p>
+            </div>
+        </section>
+        
+        <button id="review-button" class="add-review-button" onclick="location.href='add_review.html';">Add Review</button>
     </main>
     <footer>
         <p>© 2024 Hbnb Evolution. All rights reserved.</p>
     </footer>
 </body>
+<script src="scripts.js"></script>
 </html>
 

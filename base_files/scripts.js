@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('login-form');
   const errorMessage = document.getElementById('error-message');
+  const loginButton = document.getElementById("login-button");
 
   if (loginForm) {
+      // Gestion de la soumission du formulaire de connexion
       loginForm.addEventListener('submit', async (event) => {
           event.preventDefault();
 
@@ -32,28 +34,156 @@ document.addEventListener('DOMContentLoaded', () => {
           }
       });
   } else {
-    checklogin()
+      // Si on n'est pas sur la page de connexion, vérifier l'authentification
+      checkLogin();
+      fetchAllPlaces();
   }
 });
-function checklogin(){
-  const token = getCookie("token")
-  const button = document.getElementById("login-button")
-  if (token) 
-    button.style.display= "none";
-  else
-    button.style.display= "block";
-}
-function getCookie(name) {
-  let cookies = document.cookie;
-  if(cookies) {
-    let cookieData = cookies.split(";");
-    for(let i = 0; i < cookieData.length; i++) {
-      let cookie = cookieData[i];
-      let key = cookie.split("=")[0];
-      let value = cookie.split("=")[1];
-      if(key === name)
-        return value;
-    }
+
+function checkLogin() {
+  const token = getCookie("token");
+  const button = document.getElementById("login-button");
+  const reviewButton = document.getElementById("review-button");
+
+  if (token) {
+      console.log("Utilisateur connecté");
+      if(button)
+        button.style.display = "none";
+      if(reviewButton)
+        reviewButton.style.display = "block";
+
+      getPlaceFromURL();
+  } else {
+      console.log("Utilisateur non connecté");
+      if(button)
+        button.style.display = "block";
+      if(reviewButton)
+        reviewButton.style.display = "none";
   }
-  return;
 }
+
+function getCookie(name) {
+  const cookies = document.cookie.split("; ");
+  for (const cookie of cookies) {
+      const [key, value] = cookie.split("=");
+      if (key === name) return value;
+  }
+  return null;
+}
+
+// Fonction pour récupérer toutes les places
+async function fetchAllPlaces() {
+  const token = getCookie("token");
+
+  if (!token) {
+      console.error("Aucun token trouvé. L'utilisateur n'est pas authentifié.");
+      return;
+  }
+
+  try {
+      const response = await fetch('http://127.0.0.1:5000/places', {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+          }
+      });
+
+      if (response.ok) {
+          const places = await response.json();
+          console.log("Liste des places :", places);
+          displayPlaces(places);
+      } else {
+          console.error("Erreur lors de la récupération des places :", response.status);
+      }
+  } catch (error) {
+      console.error("Erreur réseau lors de la récupération des places :", error);
+  }
+}
+
+// Fonction pour afficher les places dans la page
+function displayPlaces(places) {
+  const placesList = document.getElementById('place-list');
+  if(placesList){
+    placesList.innerHTML = ''; // Vider la liste avant d'afficher les nouvelles données
+
+    places.forEach(place => {
+        const placeElement = document.createElement('div');
+        placeElement.classList.add('place-card');
+        placeElement.innerHTML = `
+                  <h2>${place.description}</h2>
+                  <p>Price per night: $${place.price_per_night}</p>
+                  <button class="details-button" onclick="location.href='place.html?id=${place.id}';">View Details</button>
+        `;
+        placesList.appendChild(placeElement);
+    });
+  }
+}
+
+function getPlaceFromURL() {
+  let queryParams = window.location.search;
+  let parameters = new URLSearchParams(queryParams);
+  let id = parameters.get("id");
+
+  console.log("Récupération de la place " + id);
+
+  if(id) 
+    fetchPlaceDetails(getCookie("token"), id);
+}
+
+async function fetchPlaceDetails(token, placeId) {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/places/' + placeId, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+          }
+      });
+
+      if (response.ok) {
+          const place = await response.json();
+          displayPlaceDetails(place);
+      } else {
+          console.error("Erreur lors de la récupération de la place:", response.status);
+      }
+  } catch (error) {
+      console.error("Erreur réseau lors de la récupération de la place :", error);
+  }
+}
+
+function displayPlaceDetails(place)  {
+    const info = document.getElementById('place-details');
+    const title = document.getElementById('place-title');
+    const reviews = document.getElementById('reviews');
+
+    console.log("Affichage de la place " + place.description);
+
+    if(title) {
+      title.innerHTML = `${place.description}`;
+    }
+
+    if(info) {
+      info.innerHTML = `
+            <p><strong>Host:</strong> ${place.host_name}</p>
+            <p><strong>Price per night:</strong> $${place.price_per_night}</p>
+            <p><strong>Description:</strong> ${place.description}</p>
+            <p><strong>Amenities:</strong> ${place.amenities}</p>
+      `;
+    }
+
+    if(reviews) {
+      reviews.innerHTML = '';
+      place.reviews.forEach(review => {
+        const placeElement = document.createElement('div');
+        placeElement.classList.add('review-card');
+        placeElement.innerHTML = `
+                  <p><strong>${review.user_name}:</strong> ${review.comment}</p>
+                <p>Rating: ${review.rating}</p>
+                `;
+        reviews.appendChild(placeElement);
+      });
+    }
+}
+
+
